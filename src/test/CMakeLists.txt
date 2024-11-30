@@ -1,0 +1,8 @@
+# Use "EXE" for executable, "LIB" for library
+SET(MODE "EXE")
+SET(TARGET_PREFIX "")
+
+GET_DIR_NAME(DIRNAME)
+SET(FOLDER_NAME "${DIRNAME}")
+
+ADD_SUB_DIRS()
