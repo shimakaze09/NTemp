@@ -8,10 +8,10 @@ FILE(GLOB SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/*.inl"
 )
 
-LIST(APPEND SOURCES "${CMAKE_SOURCE_DIR}/include/template/TypeList.hxx")
-LIST(APPEND SOURCES "${CMAKE_SOURCE_DIR}/include/template/List.hxx")
-LIST(APPEND SOURCES "${CMAKE_SOURCE_DIR}/include/template/Name.hxx")
+LIST(APPEND SOURCES "${${PROJECT_NAME}_SOURCE_DIR}/include/template/TypeList.hxx")
+LIST(APPEND SOURCES "${${PROJECT_NAME}_SOURCE_DIR}/include/template/List.hxx")
+LIST(APPEND SOURCES "${${PROJECT_NAME}_SOURCE_DIR}/include/template/Name.hxx")
 
 # Use ';' to separate multiple libraries
 SET(LIBRARIES "")
-ADD_TARGET(MODE "EXE" NAME ${TARGET_NAME} SOURCES ${SOURCES} LIBS ${LIBRARIES})
+ADD_TARGET(MODE "EXE" NAME "${PROJECT_NAME}_${TARGET_NAME}" SOURCES ${SOURCES} LIBS ${LIBRARIES})
