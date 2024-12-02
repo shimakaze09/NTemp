@@ -3,7 +3,7 @@ SET(TARGET_NAME "${TARGET_PREFIX}${DIRNAME}")
 
 GLOBAL_GROUP_SOURCES(RST SOURCES PATHS
         ${CMAKE_CURRENT_SOURCE_DIR}
-        "${PROJECT_SOURCE_DIR}/include/template"
+        "${PROJECT_SOURCE_DIR}/include/MyTemplate"
 )
 
 # Use ';' to separate multiple libraries

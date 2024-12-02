@@ -5,56 +5,70 @@
 #ifndef LIST_HXX
 #define LIST_HXX
 
-namespace Nexus {
+namespace My {
 /*
- * [ Interface ]
- *
- * T    Front<List>
- * List PushFront<List, T>
- * List PopFront<List, T>
- * bool IsEmpty<List>
- *
- * List Clear<List>
- * T At<List, N>
- * I Accumulate<List, <I, T> Op, I>
- * List Reverse<List>
- * List PushBack<List, T>
- * List Transform<List, <T> Op>
- * List Select<List, Size...>
- */
+* [ Interface ]
+*
+* T    Front<List>
+* List PushFront<List, T>
+* List PopFront<List, T>
+* bool IsEmpty<List>
+*
+* List Clear<List>
+* T At<List, N>
+* I Accumulate<List, <I, T> Op, I>
+* List Reverse<List>
+* List PushBack<List, T>
+* List Transform<List, <T> Op>
+* List Select<List, Size...>
+*/
 
 // [ Basic ]
-template <typename List> struct FrontT;
-template <typename List, typename T> struct PushFrontT;
-template <typename List> struct PopFrontT;
-template <typename List> struct IsEmpty {
+template <typename List>
+struct FrontT;
+template <typename List, typename T>
+struct PushFrontT;
+template <typename List>
+struct PopFrontT;
+
+template <typename List>
+struct IsEmpty {
   static constexpr bool value = false;
 };
 
-template <typename List> using Front = typename FrontT<List>::type;
+template <typename List>
+using Front = typename FrontT<List>::type;
 template <typename List, typename T>
 using PushFront = typename PushFrontT<List, T>::type;
-template <typename List> using PopFront = typename PopFrontT<List>::type;
+template <typename List>
+using PopFront = typename PopFrontT<List>::type;
 
 // [ Algorithms ]
 
 // Clear
-template <typename List, bool = IsEmpty<List>::value> struct ClearT;
+template <typename List, bool = IsEmpty<List>::value>
+struct ClearT;
 
-template <typename List> using Clear = typename ClearT<List>::type;
+template <typename List>
+using Clear = typename ClearT<List>::type;
 
-template <typename List> struct ClearT<List, false> : ClearT<PopFront<List>> {};
+template <typename List>
+struct ClearT<List, false> : ClearT<PopFront<List>> {};
 
-template <typename List> struct ClearT<List, true> {
+template <typename List>
+struct ClearT<List, true> {
   using type = List;
 };
 
 // At
-template <typename List, size_t N> struct AtT : AtT<PopFront<List>, N - 1> {};
+template <typename List, size_t N>
+struct AtT : AtT<PopFront<List>, N - 1> {};
 
-template <typename List, size_t N> using At = typename AtT<List, N>::type;
+template <typename List, size_t N>
+using At = typename AtT<List, N>::type;
 
-template <typename List> struct AtT<List, 0> {
+template <typename List>
+struct AtT<List, 0> {
   using type = Front<List>;
 };
 
@@ -102,7 +116,8 @@ struct AccumulateIST<List, Op, I, NumHead, NumTail...>
 // Reverse
 template <typename List>
 using ReverseT = AccumulateT<List, PushFrontT, Clear<List>>;
-template <typename List> using Reverse = typename ReverseT<List>::type;
+template <typename List>
+using Reverse = typename ReverseT<List>::type;
 
 // PushBack
 template <typename List, typename T>
@@ -111,12 +126,13 @@ template <typename List, typename T>
 using PushBack = typename PushBackT<List, T>::type;
 
 // Transform
-template <typename List, template <typename T> class Op> struct TransformT {
-private:
+template <typename List, template <typename T> class Op>
+struct TransformT {
+ private:
   template <typename I, typename T>
   using ToIT = PushFrontT<I, typename Op<T>::type>;
 
-public:
+ public:
   using type = Reverse<Accumulate<List, ToIT, Clear<List>>>;
 };
 
@@ -124,17 +140,18 @@ template <typename List, template <typename> class Op>
 using Transform = typename TransformT<List, Op>::type;
 
 // Select
-template <typename List, size_t... Indices> struct SelectT {
-private:
+template <typename List, size_t... Indices>
+struct SelectT {
+ private:
   template <typename I, typename List, size_t Index>
   using ToIT = PushFrontT<I, At<List, Index>>;
 
-public:
+ public:
   using type = Reverse<AccumulateIS<List, ToIT, Clear<List>, Indices...>>;
 };
 
 template <typename List, size_t... Indices>
 using Select = typename SelectT<List, Indices...>::type;
-} // namespace Nexus
+}  // namespace My
 
-#endif // LIST_HXX
+#endif  // LIST_HXX

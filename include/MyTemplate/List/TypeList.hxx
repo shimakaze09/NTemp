@@ -5,15 +5,17 @@
 #ifndef TYPE_LIST_HXX
 #define TYPE_LIST_HXX
 
-#include "List.hxx"
 #include "../Name.hxx"
+#include "List.hxx"
 
-namespace Nexus {
-template <typename... Ts> struct TypeList {};
+namespace My {
+template <typename... Ts>
+struct TypeList {};
 
 // [ Name ]
-template <typename... Ts> struct Name<TypeList<Ts...>> {
-  friend std::ostream &operator<<(std::ostream &os, Name<TypeList<Ts...>>) {
+template <typename... Ts>
+struct Name<TypeList<Ts...>> {
+  friend std::ostream& operator<<(std::ostream& os, Name<TypeList<Ts...>>) {
     os << "[" << Name<Ts...>() << "]";
     return os;
   }
@@ -22,7 +24,8 @@ template <typename... Ts> struct Name<TypeList<Ts...>> {
 // [ List ]
 
 // basic
-template <> struct IsEmpty<TypeList<>> {
+template <>
+struct IsEmpty<TypeList<>> {
   static constexpr bool value = true;
 };
 
@@ -31,7 +34,8 @@ struct FrontT<TypeList<Head, Tail...>> {
   using type = Head;
 };
 
-template <typename T, typename... Ts> struct PushFrontT<TypeList<Ts...>, T> {
+template <typename T, typename... Ts>
+struct PushFrontT<TypeList<Ts...>, T> {
   using type = TypeList<T, Ts...>;
 };
 
@@ -41,7 +45,8 @@ struct PopFrontT<TypeList<Head, Tail...>> {
 };
 
 // optimized
-template <typename... Ts> struct ClearT<TypeList<Ts...>, false> {
+template <typename... Ts>
+struct ClearT<TypeList<Ts...>, false> {
   using type = TypeList<>;
 };
 
@@ -49,6 +54,6 @@ template <template <typename T> class Op, typename... Ts>
 struct TransformT<TypeList<Ts...>, Op> {
   using type = TypeList<typename Op<Ts>::type...>;
 };
-} // namespace Nexus
+}  // namespace My
 
-#endif // TYPE_LIST_HXX
+#endif  // TYPE_LIST_HXX
