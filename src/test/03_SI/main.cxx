@@ -1,11 +1,11 @@
 //
-// Created by Admin on 2/12/2024.
+// Created by Admin on 3/12/2024.
 //
 
 #include <iostream>
 #include <type_traits>
 
-#include "MyTemplate/SI.hxx"
+#include <MyTemplate/SI.hxx>
 
 using namespace std;
 using namespace My;
@@ -119,9 +119,11 @@ int main() {
   cout << static_cast<SIStruct2<SINil>*>(&ECBOs2) << endl;
   cout << static_cast<SIStruct2<SINil>::Struct1*>(&ECBOs2) << endl;
   cout << static_cast<SIStruct2<SINil>::Empty1*>(&ECBOs2) << endl;
+
   cout << "[ SIT ]" << endl;
   C c;
   cout << sizeof(C) << endl;
+
   c.Foo();
   c.Goo();
   c.Hoo();
