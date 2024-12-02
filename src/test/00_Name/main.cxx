@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "template/TypeList.hxx"
+#include "template/list/TypeList.hxx"
 
 using namespace std;
 using namespace Nexus;

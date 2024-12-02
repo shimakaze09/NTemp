@@ -6,7 +6,7 @@
 #define TYPE_LIST_HXX
 
 #include "List.hxx"
-#include "Name.hxx"
+#include "../Name.hxx"
 
 namespace Nexus {
 template <typename... Ts> struct TypeList {};

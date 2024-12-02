@@ -5,7 +5,7 @@
 #include <iostream>
 #include <type_traits>
 
-#include "template/TypeList.hxx"
+#include "template/list/TypeList.hxx"
 
 using namespace std;
 
