@@ -1,17 +1,11 @@
-# Project name, default is the directory name
 GET_DIR_NAME(DIRNAME)
 SET(TARGET_NAME "${TARGET_PREFIX}${DIRNAME}")
-# Use ';' to separate multiple directories
-FILE(GLOB SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.cxx"
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.hxx"
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.inl"
-)
 
-LIST(APPEND SOURCES "${${PROJECT_NAME}_SOURCE_DIR}/include/template/TypeList.hxx")
-LIST(APPEND SOURCES "${${PROJECT_NAME}_SOURCE_DIR}/include/template/List.hxx")
-LIST(APPEND SOURCES "${${PROJECT_NAME}_SOURCE_DIR}/include/template/Name.hxx")
+ADD_CURRENT_SOURCES(SOURCES)
+LIST(APPEND SOURCES "${PROJECT_SOURCE_DIR}/include/Template/Template.hxx")
+LIST(APPEND SOURCES "${PROJECT_SOURCE_DIR}/include/Template/List.hxx")
+LIST(APPEND SOURCES "${PROJECT_SOURCE_DIR}/include/Template/Name.hxx")
 
 # Use ';' to separate multiple libraries
 SET(LIBRARIES "")
-ADD_TARGET(MODE "EXE" NAME "${PROJECT_NAME}_${TARGET_NAME}" SOURCES ${SOURCES} LIBS ${LIBRARIES})
+ADD_TARGET(MODE "EXE" NAME ${TARGET_NAME} SOURCES ${SOURCES} LIBS ${LIBRARIES})
