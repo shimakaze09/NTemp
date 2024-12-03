@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "MyTemplate/List/TypeList.hxx"
+#include "MyTemplate/Name.hxx"
 
 using namespace std;
 using namespace My;
@@ -19,7 +19,6 @@ int main(int argc, char** argv) {
   cout << Name<int&&>() << endl;
   cout << Name<int*>() << endl;
   cout << Name<const int*&>() << endl;
-  cout << Name<TypeList<int, int>>() << endl;
   cout << Name<void()>() << endl;
   cout << Name<void (*)(int, int)>() << endl;
   cout << Name<int[2]>() << endl;
@@ -27,5 +26,6 @@ int main(int argc, char** argv) {
   cout << Name<int[]>() << endl;
   cout << Name<const int[]>() << endl;
   cout << Name<void (*const[2])(int, int)>() << endl;
-  cout << Name<TypeList<int, float, bool>>() << endl;
+
+  return 0;
 }

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <type_traits>
 
-#include <MyTemplate/List/TypeList.hxx>
+#include "MyTemplate/List/TypeList.hxx"
 
 using namespace std;
 using namespace My;
@@ -18,7 +18,6 @@ int main() {
   cout << "PushFront_t<list0, double>: " << Name<PushFront_t<list0, double>>()
        << endl;
   cout << "PopFront_t<list0>: " << Name<PopFront_t<list0>>() << endl;
-  cout << "Clear_t<list0>: " << Name<Clear_t<list0>>() << endl;
   cout << "At_t<list0, 1>: " << Name<At_t<list0, 1>>() << endl;
   cout << "Reverse_t<list0>: " << Name<Reverse_t<list0>>() << endl;
   cout << "PushBack_t<list0, double>: " << Name<PushBack_t<list0, double>>()
