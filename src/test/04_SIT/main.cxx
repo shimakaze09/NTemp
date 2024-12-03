@@ -127,7 +127,7 @@ using Vecf3 = Vec<float, 3>;
 using Vecf100 = Vec<float, 100>;
 
 template <typename Impl,
-          bool = Contains<typename Impl::VBList, typename Impl::IIn>::value>
+          bool = Contain<typename Impl::VBList, typename Impl::IIn>::value>
 struct Check {};
 
 int main() {

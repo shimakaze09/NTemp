@@ -30,30 +30,37 @@ struct IsEmpty<TypeList<>> {
 };
 
 template <typename Head, typename... Tail>
-struct FrontT<TypeList<Head, Tail...>> {
+struct Front<TypeList<Head, Tail...>> {
   using type = Head;
 };
 
 template <typename T, typename... Ts>
-struct PushFrontT<TypeList<Ts...>, T> {
+struct PushFront<TypeList<Ts...>, T> {
   using type = TypeList<T, Ts...>;
 };
 
 template <typename Head, typename... Tail>
-struct PopFrontT<TypeList<Head, Tail...>> {
+struct PopFront<TypeList<Head, Tail...>> {
   using type = TypeList<Tail...>;
 };
 
 // optimized
 template <typename... Ts>
-struct ClearT<TypeList<Ts...>, false> {
+struct Clear<TypeList<Ts...>, false> {
   using type = TypeList<>;
 };
 
 template <template <typename T> class Op, typename... Ts>
-struct TransformT<TypeList<Ts...>, Op> {
+struct Transform<TypeList<Ts...>, Op> {
   using type = TypeList<typename Op<Ts>::type...>;
 };
+
+template <typename List, typename... Ts>
+struct ContainList<List, TypeList<Ts...>>
+    : Conjunction<Bool<Contain_v<List, Ts>>...> {};
+
+template <typename List, typename... Ts>
+constexpr bool ContainList_v = ContainList<List, Ts...>::type::value;
 }  // namespace My
 
 #endif  // TYPE_LIST_HXX
