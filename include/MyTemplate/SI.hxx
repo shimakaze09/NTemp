@@ -58,7 +58,7 @@ struct SI_TNBList<TemplateList<THead, TTail...>> {
     using AllVBs = std::enable_if_t<
         TCanGeneralizeFromList_v<typename B::TVBs, typename BB::AllVBs>,
         typename BB::AllVBs>;
-    using TVBs = TConcat_t<typename BB::TVBs, typename B::TVBs>;
+    using TVBs = TConcatR_t<typename BB::TVBs, typename B::TVBs>;
   };
 };
 
@@ -147,16 +147,7 @@ struct SII<TemplateList<THead, TTail...>> {
 };
 }  // namespace detail
 
-template <template <typename...> class To, typename From>
-SearchInstance_t<typename From::AllVBs, To>* SI_Cast(From* from) {
-  return static_cast<SearchInstance_t<typename From::AllVBs, To>*>(from);
-}
-
-template <template <typename...> class To, typename From>
-const SearchInstance_t<typename From::AllVBs, To>* SI_CastC(const From* from) {
-  return static_cast<const SearchInstance_t<typename From::AllVBs, To>*>(from);
-}
-
+namespace detail {
 template <typename BaseList, typename TopoOrderBaseSet, typename ArgList>
 struct TopoSort;
 
@@ -194,9 +185,11 @@ struct TopoSort<TemplateList<THead, TTail...>, TopoOrderBaseSet, ArgList> {
       typename TopoSort<TemplateList<TTail...>,
                         typename Rec<isContainHead>::type, ArgList>::type;
 };
+}  // namespace detail
 
 template <typename BaseList, typename ArgList>
-using TopoSort_t = typename TopoSort<BaseList, TemplateList<>, ArgList>::type;
+using TopoSort_t =
+    typename detail::TopoSort<BaseList, TemplateList<>, ArgList>::type;
 
 template <typename TopoOrderBaseSet, typename... Args>
 using SIIPro = typename detail::SII<TopoOrderBaseSet>::template Ttype<Args...>;
@@ -206,6 +199,16 @@ using SIIT = SIIPro<TopoSort_t<BaseList, TypeList<SI_Nil, Args...>>, Args...>;
 
 template <template <typename...> class... Bases>
 using SII = SIIT<TemplateList<Bases...>>;
+
+template <template <typename...> class To, typename From>
+SearchInstance_t<typename From::AllVBs, To>* SI_Cast(From* from) {
+  return static_cast<SearchInstance_t<typename From::AllVBs, To>*>(from);
+}
+
+template <template <typename...> class To, typename From>
+const SearchInstance_t<typename From::AllVBs, To>* SI_CastC(const From* from) {
+  return static_cast<const SearchInstance_t<typename From::AllVBs, To>*>(from);
+}
 }  // namespace My
 
 #endif  //SI_HXX
