@@ -51,7 +51,6 @@ struct DisjunctionRec<false, LastN, NHead, NTail...>
 
 template <typename... Ns>
 using Disjunction = DisjunctionRec<false, False, Ns...>;
-
 template <typename... Ns>
 using Disjunction_t = typename Disjunction<Ns...>::type;
 }  // namespace My

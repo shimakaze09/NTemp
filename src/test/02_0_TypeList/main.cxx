@@ -50,5 +50,6 @@ int main() {
                                 TypeList>>()
        << endl;
 
+  cout << Name<Rotate<list0>::type>() << endl;
   return 0;
 }

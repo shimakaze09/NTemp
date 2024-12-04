@@ -46,6 +46,14 @@ struct TIsEmpty<TemplateList<>> {
 template <typename List>
 constexpr bool TIsEmpty_v = TIsEmpty<List>::value;
 
+template <typename List>
+struct TLength;
+
+template <template <typename...> class... Ts>
+struct TLength<TemplateList<Ts...>> {
+  static constexpr decltype(sizeof(void*)) value = sizeof...(Ts);
+};
+
 // TFront
 template <typename List>
 struct TFront;
