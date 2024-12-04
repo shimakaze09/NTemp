@@ -5,28 +5,73 @@
 #include <array>
 #include <iostream>
 #include <type_traits>
+#include <string>
 
 #include "MyTemplate/SI.hxx"
 
 using namespace std;
 using namespace My;
 
-template <typename Base, typename T, typename N>
-struct IArray : Base, std::array<T, N::value> {};
+template<typename Base>
+struct IPeople : Base {
+	using Base::Base;
 
-template <typename Base, typename T, typename N>
-struct IPrint : SI<TemplateList<IArray>>::Ttype<Base, T, N> {
-  void Print() const {
-    const auto& ArrayObj = *SI_CastC<IArray>(this);
-    for (const auto& v : ArrayObj)
-      cout << v << ",";
-  }
+	IPeople(const string & name) :name(name) {}
+	string name;
 };
 
-struct Rst : SII<TemplateList<IPrint, IArray>>::Ttype<float, Size<3>> {};
+template<typename Base>
+struct ISing : Base {
+	using Base::Base;
+
+	void Sing() {
+		cout << "Sing";
+	}
+};
+
+template<typename Base>
+struct IJump : Base {
+	using Base::Base;
+
+	void Jump() {
+		cout << "Jump";
+	}
+};
+
+template<typename Base>
+struct IRap : Base {
+	using Base::Base;
+
+	void Rap() {
+		cout << "Rap";
+	}
+};
+
+template<typename Base>
+struct IBasketball : Base {
+	using Base::Base;
+
+	void Basketball() {
+		cout << "Basketball";
+	}
+};
+
+struct CXK : SII<IBasketball, ISing, IJump, IRap, IPeople>::Ttype<> {
+	CXK() : Ttype("CXK") {}
+};
 
 int main() {
-  Rst rst;
-  rst.fill(2);
-  rst.Print();
+	CXK cxk;
+	cout << "Hello, everyone. I am a trainee with two and a half years of practice, " << cxk.name << endl
+		<< "I like ";
+	cxk.Sing();
+	cout << ", ";
+	cxk.Jump();
+	cout << ", ";
+	cxk.Rap();
+	cout << ", ";
+	cxk.Basketball();
+	cout << "!";
+
+	return 0;
 }
