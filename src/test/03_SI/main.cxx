@@ -55,9 +55,9 @@ struct CXK : SII<IBasketball> {
 
 int main() {
   CXK cxk;
-  cout << "全民制作人们，大家好，我是练习时长两年半的个人练习生" << cxk.name
+  cout << "Hello, producers. I am a personal trainee with two and a half years of practice, " << cxk.name
        << endl
-       << "喜欢 ";
+       << "I like ";
   cxk.Sing();
   cout << ", ";
   cxk.Jump();

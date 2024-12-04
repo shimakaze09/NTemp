@@ -98,13 +98,20 @@ using SINT =
     Instance_t<PushFront_t<ArgList, Base>,
                SI<TemplateList<>, TemplateList<TNBases...>>::template Ttype>;
 
+template <typename Base, typename ArgList, typename... CRTPWrapper>
+using SINT_CRTP = SINT<Base, ArgList, CRTPWrapper::template Ttype...>;
+
 template <typename Base, template <typename...> class... TVBases>
 using SIV = typename SI<TemplateList<TVBases...>>::template Ttype<Base>;
 
 template <typename Base, typename ArgList,
           template <typename...> class... TVBases>
-using SIVT = Instance_t<PushFront_t<ArgList, Base>,
-                        SI<TemplateList<TVBases...>>::template Ttype>;
+using SIVT =
+    Instance_t<PushFront_t<ArgList, Base>,
+               SI<TemplateList<TVBases...>, TemplateList<>>::template Ttype>;
+
+template <typename Base, typename ArgList, typename... CRTPWrapper>
+using SIVT_CRTP = SIVT<Base, ArgList, CRTPWrapper::template Ttype...>;
 
 //---------------------------------------------------------------------------------------
 
