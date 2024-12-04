@@ -11,7 +11,7 @@ IF (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 ENDIF ()
 
 # Add 'd' to the end of the lib and dll names in debug mode
-SET(CMAKE_DEBUG_POSTFIX "d")
+SET(CMAKE_DEBUG_POSTFIX d)
 
 # Check C++ version
 SET(CMAKE_CXX_STANDARD 11)

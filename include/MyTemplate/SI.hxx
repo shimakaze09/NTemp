@@ -58,7 +58,7 @@ struct SI_TNBList<TemplateList<THead, TTail...>> {
     using AllVBs = std::enable_if_t<
         TCanGeneralizeFromList_v<typename B::TVBs, typename BB::AllVBs>,
         typename BB::AllVBs>;
-    using TVBs = Concat_t<typename BB::TVBs, typename B::TVBs>;
+    using TVBs = TConcat_t<typename BB::TVBs, typename B::TVBs>;
   };
 };
 
@@ -83,13 +83,15 @@ template <typename TVBList, typename TNBList>
 struct SI {
   template <typename Base, typename... Ts>
   struct Ttype : SI_TNBList<TNBList>::template Ttype<Base, Ts...> {
-    using SI_TNBList<TNBList>::template Ttype<Base, Ts...>::SI_TNBList;
+    using Ttype::Ttype;
     using TVBs = TVBList;
   };
 };
 
 template <template <typename...> class... TVBases>
 using SIV = SI<TemplateList<TVBases...>>;
+template <template <typename...> class... TNBases>
+using SIN = SI<TemplateList<>, TemplateList<TNBases...>>;
 
 namespace detail {
 template <typename BList>
