@@ -28,7 +28,9 @@ namespace My {
  */
 
 template <template <typename...> class... Ts>
-struct TemplateList {};
+struct TemplateList {
+  static constexpr size_t size() noexcept { return sizeof...(Ts); }
+};
 
 // [ List ]
 
