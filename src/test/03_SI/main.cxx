@@ -66,6 +66,4 @@ int main() {
   cout << ", ";
   cxk.Basketball();
   cout << "!";
-
-  return 0;
 }
