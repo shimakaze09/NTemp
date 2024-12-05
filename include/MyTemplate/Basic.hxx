@@ -61,6 +61,30 @@ struct is_instance_of<TInstance<Args...>, T> {
 
 template <typename Instance, template <typename...> class T>
 constexpr bool is_instance_of_v = is_instance_of<Instance, T>::value;
+
+template <typename T, T... Vals>
+struct sequence {  // sequence of integer parameters
+  static_assert(std::is_integral_v<T>,
+                "integer_sequence<T, I...> requires T to be an integral type.");
+
+  using value_type = T;
+
+  static constexpr size_t size() noexcept { return sizeof...(Vals); }
+};
+
+namespace detail {
+template <typename T, size_t I, T... Ns>
+struct make_sequence;
+
+template <typename T, T... Ns>
+struct make_sequence<T, 0, Ns...> : sequence<T, Ns...> {};
+
+template <typename T, size_t I, T... Ns>
+struct make_sequence : make_sequence<T, I - 1, I - 1, Ns...> {};
+}  // namespace detail
+
+template <typename T, size_t I>
+using make_sequence = detail::make_sequence<T, I>;
 }  // namespace My
 
 #endif  //BASIC_HXX
