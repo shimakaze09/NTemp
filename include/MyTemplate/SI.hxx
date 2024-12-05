@@ -148,22 +148,46 @@ struct SII<TemplateList<THead, TTail...>> {
 }  // namespace detail
 
 namespace detail {
-template <typename BaseList, typename TopoOrderBaseSet, typename ArgList>
+template <typename ArgList, template <typename...> class T>
+struct TImpl;
+
+template <typename ArgList, bool CRTP, template <typename...> class T>
+struct ActualInstance;
+
+template <typename ArgList, template <typename...> class T>
+struct ActualInstance<ArgList, false, T> {
+  using type = Instance_t<PushFront_t<ArgList, SI_Nil>, T>;
+};
+
+template <typename ArgList, template <typename...> class T>
+struct ActualInstance<ArgList, true, T> {
+  using type =
+      Instance_t<PushFront_t<PushFront_t<ArgList, TImpl<ArgList, T>>, SI_Nil>,
+                 T>;
+};
+
+template <typename ArgList, bool CRTP, template <typename...> class T>
+using ActualInstance_t = typename ActualInstance<ArgList, CRTP, T>::type;
+template <typename BaseList, typename TopoOrderBaseSet, typename ArgList,
+          bool CRTP>
 struct TopoSort;
 
-template <typename TopoOrderBaseSet, typename ArgList>
-struct TopoSort<TemplateList<>, TopoOrderBaseSet, ArgList> {
+template <typename TopoOrderBaseSet, typename ArgList, bool CRTP>
+struct TopoSort<TemplateList<>, TopoOrderBaseSet, ArgList, CRTP> {
   using type = TopoOrderBaseSet;
 };
 
-template <typename TopoOrderBaseSet, typename ArgList,
+template <typename TopoOrderBaseSet, typename ArgList, bool CRTP,
           template <typename...> class THead,
           template <typename...> class... TTail>
-struct TopoSort<TemplateList<THead, TTail...>, TopoOrderBaseSet, ArgList> {
+struct TopoSort<TemplateList<THead, TTail...>, TopoOrderBaseSet, ArgList,
+                CRTP> {
  private:
   using BaseList = TemplateList<THead, TTail...>;
+  using HeadInstance = ActualInstance_t<ArgList, CRTP, THead>;
   static constexpr bool isContainHead =
-      TInstantiable_v<TopoOrderBaseSet, Instance_t<ArgList, THead>>;
+      TInstantiable_v<TopoOrderBaseSet, HeadInstance>;
+
   template <bool>
   struct Rec;
 
@@ -174,28 +198,32 @@ struct TopoSort<TemplateList<THead, TTail...>, TopoOrderBaseSet, ArgList> {
 
   template <>
   struct Rec<false> {
-    using TVBs = typename Instance_t<ArgList, THead>::TVBs;
+    using TVBs = typename HeadInstance::TVBs;
     using NewTopoOrderBaseSet =
-        typename TopoSort<TVBs, TopoOrderBaseSet, ArgList>::type;
+        typename TopoSort<TVBs, TopoOrderBaseSet, ArgList, CRTP>::type;
     using type = TPushFront_t<NewTopoOrderBaseSet, THead>;
   };
 
  public:
   using type =
       typename TopoSort<TemplateList<TTail...>,
-                        typename Rec<isContainHead>::type, ArgList>::type;
+                        typename Rec<isContainHead>::type, ArgList, CRTP>::type;
 };
 }  // namespace detail
 
-template <typename BaseList, typename ArgList>
+template <typename BaseList, typename ArgList, bool CRTP>
 using TopoSort_t =
-    typename detail::TopoSort<BaseList, TemplateList<>, ArgList>::type;
+    typename detail::TopoSort<BaseList, TemplateList<>, ArgList, CRTP>::type;
 
 template <typename TopoOrderBaseSet, typename... Args>
 using SIIPro = typename detail::SII<TopoOrderBaseSet>::template Ttype<Args...>;
 
 template <typename BaseList, typename... Args>
-using SIIT = SIIPro<TopoSort_t<BaseList, TypeList<SI_Nil, Args...>>, Args...>;
+using SIIT = SIIPro<TopoSort_t<BaseList, TypeList<Args...>, false>, Args...>;
+
+template <typename BaseList, typename Impl, typename... Args>
+using SIICRTP =
+    SIIPro<TopoSort_t<BaseList, TypeList<Args...>, true>, Impl, Args...>;
 
 template <template <typename...> class... Bases>
 using SII = SIIT<TemplateList<Bases...>>;
