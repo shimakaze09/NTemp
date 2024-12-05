@@ -33,6 +33,81 @@ auto SI_CastC(const From* from) {
 }
 
 struct SI_Nil {
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator+(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator-(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator*(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator/(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator^(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator&(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator|(SI_ERROR) = delete;
+  // template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  // void operator~() = delete;
+  // template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  // void operator!() = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator<(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator>(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator+=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator-=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator*=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator/=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator%=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator^=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator&=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator|=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator<<(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator>>(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator>>=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator<<=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator==(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator!=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator<=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator>=(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator&&(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator||(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator++(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator--(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator,(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator->*(SI_ERROR) = delete;
+  // template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  // void operator->() = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator()(SI_ERROR) = delete;
+  template <typename SI_ERROR, typename = typename SI_ERROR::SI_ERROR>
+  void operator[](SI_ERROR) = delete;
+
   using TVBList = TemplateList<>;
   using AllVBs = TypeList<>;
 };
@@ -119,11 +194,11 @@ struct SI<_TVBList, TemplateList<>, Base, Args...> : Base {
   using AllVBs = PushFront_t<typename Base::AllVBs, Base>;
 };
 
-template <typename _TVBList, typename... Args>
-struct SI<_TVBList, TemplateList<>, SI_Nil, Args...> {
-  using TVBList = _TVBList;
-  using AllVBs = TypeList<>;
-};
+// template <typename _TVBList, typename... Args>
+// struct SI<_TVBList, TemplateList<>, SI_Nil, Args...> {
+//   using TVBList = _TVBList;
+//   using AllVBs = TypeList<>;
+// };
 
 template <typename TVBList, typename TNBList, typename Base, typename Impl,
           typename... Args>
@@ -136,11 +211,11 @@ struct SI_CRTP<_TVBList, TemplateList<>, Base, Impl, Args...> : Base {
   using AllVBs = PushFront_t<typename Base::AllVBs, Base>;
 };
 
-template <typename _TVBList, typename Impl, typename... Args>
-struct SI_CRTP<_TVBList, TemplateList<>, SI_Nil, Impl, Args...> {
-  using TVBList = _TVBList;
-  using AllVBs = TypeList<>;
-};
+// template <typename _TVBList, typename Impl, typename... Args>
+// struct SI_CRTP<_TVBList, TemplateList<>, SI_Nil, Impl, Args...> {
+//   using TVBList = _TVBList;
+//   using AllVBs = TypeList<>;
+// };
 
 template <typename _TVBList, typename TNBList, typename Base, typename Impl,
           typename... Args>
