@@ -17,6 +17,12 @@ template <typename Base, typename Impl, typename T, typename Num>
 struct IArray : Base, array<T, Num::value> {
   using Base::Base;
 
+ private:
+  using Base::operator[];
+
+ public:
+  using array<T, Num::value>::operator[];
+
   IArray() {}
 
   template <typename... U>

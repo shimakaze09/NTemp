@@ -1,0 +1,3 @@
+[submodule "MyCMake"]
+	path = external/MyCMake
+	url = https://github.com/shimakaze09/MyCMake.git
