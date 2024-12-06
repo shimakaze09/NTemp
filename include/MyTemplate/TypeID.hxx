@@ -8,6 +8,7 @@
 #define TYPEID_HXX
 
 #include <cstdint>
+#include <type_traits>
 
 #if defined _MSC_VER
 #define PRETTY_FUNCTION __FUNCSIG__
@@ -19,8 +20,30 @@
 #define PRETTY_FUNCTION __PRETTY_FUNCTION__
 #endif
 
+namespace My::detail::TypeID {
+template <typename T>
+struct TypeID;
+}  // namespace My::detail::TypeID
+
 namespace My {
-namespace detail {
+template <typename T>
+constexpr size_t TypeID = detail::TypeID::TypeID<T>::id();
+
+template <typename X, typename Y>
+struct TypeID_Less;
+template <typename X, typename Y>
+constexpr bool TypeID_Less_v = TypeID_Less<X, Y>::value;
+}  // namespace My
+
+namespace My {
+template <typename X, typename Y>
+struct TypeID_Less {
+  static constexpr bool value = TypeID<X> < TypeID<Y>;
+  static_assert(std::is_same_v<X, Y> || TypeID<X> != TypeID<Y>);
+};
+}  // namespace My
+
+namespace My::detail::TypeID {
 template <typename>
 struct fnv1a_traits;
 
@@ -51,10 +74,12 @@ class hashed_string {
   // Fowler¨CNoll¨CVo hash function v. 1a - the good
   static constexpr size_t helper(const char* curr) noexcept {
     auto value = traits_type::offset;
+
     while (*curr != 0) {
       value = (value ^ static_cast<traits_type::type>(*(curr++))) *
               traits_type::prime;
     }
+
     return value;
   }
 
@@ -182,16 +207,6 @@ struct TypeID {
     return value;
   }
 };
-}  // namespace detail
-
-template <typename T>
-constexpr size_t TypeID = detail::TypeID<T>::id();
-
-template <typename X, typename Y>
-struct TypeID_Less {
-  static constexpr bool value = TypeID<X> < TypeID<Y>;
-  static_assert(TypeID<X> != TypeID<Y>);
-};
-}  // namespace My
+}  // namespace My::detail::TypeID
 
 #endif

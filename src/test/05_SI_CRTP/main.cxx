@@ -6,8 +6,8 @@
 #include <iostream>
 #include <type_traits>
 
-#include "MyTemplate/List/TypeList.hxx"
-#include "MyTemplate/Num/Num.hxx"
+#include "MyTemplate/TypeList.hxx"
+#include "MyTemplate/Num.hxx"
 #include "MyTemplate/SI.hxx"
 
 using namespace std;

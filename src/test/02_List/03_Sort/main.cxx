@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "MyTemplate/List/TypeList.hxx"
 #include "MyTemplate/Name.hxx"
-#include "MyTemplate/TypeID/TypeID.hxx"
+#include "MyTemplate/TypeID.hxx"
+#include "MyTemplate/TypeList.hxx"
 
 using namespace My;
 using namespace std;
