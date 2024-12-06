@@ -35,6 +35,17 @@ SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/build/lib")
 # Turn on VS folders
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 
+INCLUDE (FETCHCONTENT)
+FETCHCONTENT_DECLARE(
+        MyGit
+        GIT_REPOSITORY https://github.com/shimakaze09/MyGit
+        GIT_TAG main
+)
+FetchContent_MakeAvailable(MyGit)
+
+INIT_GIT()
+UPDATE_SUBMODULES()
+
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/external/MyCMake/cmake")
 INCLUDE (Tools)
 
