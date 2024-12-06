@@ -10,13 +10,13 @@
 #include <cstdint>
 
 #if defined _MSC_VER
-	#define PRETTY_FUNCTION __FUNCSIG__
-	//#define PRETTY_FUNCTION_CONSTEXPR ENTT_PRETTY_FUNCTION
+#define PRETTY_FUNCTION __FUNCSIG__
+//#define PRETTY_FUNCTION_CONSTEXPR ENTT_PRETTY_FUNCTION
 #elif defined __clang__ || (defined __GNUC__ && __GNUC__ > 8)
-	#define PRETTY_FUNCTION __PRETTY_FUNCTION__
-	//#define PRETTY_FUNCTION_CONSTEXPR ENTT_PRETTY_FUNCTION
+#define PRETTY_FUNCTION __PRETTY_FUNCTION__
+//#define PRETTY_FUNCTION_CONSTEXPR ENTT_PRETTY_FUNCTION
 #elif defined __GNUC__
-	#define PRETTY_FUNCTION __PRETTY_FUNCTION__
+#define PRETTY_FUNCTION __PRETTY_FUNCTION__
 #endif
 
 namespace My {
@@ -65,40 +65,40 @@ class hashed_string {
   using hash_type = size_t;
 
   /**
-             * @brief Returns directly the numeric representation of a string.
-             *
-             * Forcing template resolution avoids implicit conversions. An
-             * human-readable identifier can be anything but a plain, old bunch of
-             * characters.<br/>
-             * Example of use:
-             * @code{.cpp}
-             * const auto value = hashed_string<char>::to_value("my.png");
-             * @endcode
-             *
-             * @tparam N Number of characters of the identifier.
-             * @param str Human-readable identifer.
-             * @return The numeric representation of the string.
-             */
+   * @brief Returns directly the numeric representation of a string.
+   *
+   * Forcing template resolution avoids implicit conversions. An
+   * human-readable identifier can be anything but a plain, old bunch of
+   * characters.<br/>
+   * Example of use:
+   * @code{.cxx}
+   * const auto value = hashed_string<char>::to_value("my.png");
+   * @endcode
+   *
+   * @tparam N Number of characters of the identifier.
+   * @param str Human-readable identifer.
+   * @return The numeric representation of the string.
+   */
   template <size_t N>
   static constexpr hash_type value(const value_type (&str)[N]) noexcept {
     return helper(str);
   }
 
   /**
-             * @brief Returns directly the numeric representation of a string.
-             * @param wrapper Helps achieving the purpose by relying on overloading.
-             * @return The numeric representation of the string.
-             */
+   * @brief Returns directly the numeric representation of a string.
+   * @param wrapper Helps achieving the purpose by relying on overloading.
+   * @return The numeric representation of the string.
+   */
   static hash_type value(const_wrapper wrapper) noexcept {
     return helper(wrapper.str);
   }
 
   /**
-             * @brief Returns directly the numeric representation of a string view.
-             * @param str Human-readable identifer.
-             * @param size Length of the string to hash.
-             * @return The numeric representation of the string.
-             */
+   * @brief Returns directly the numeric representation of a string view.
+   * @param str Human-readable identifier.
+   * @param size Length of the string to hash.
+   * @return The numeric representation of the string.
+   */
   static hash_type value(const value_type* str, size_t size) noexcept {
     size_t partial{traits_type::offset};
     while (size--) {
@@ -111,57 +111,57 @@ class hashed_string {
   constexpr hashed_string() noexcept : str{nullptr}, hash{} {}
 
   /**
-             * @brief Constructs a hashed string from an array of const characters.
-             *
-             * Forcing template resolution avoids implicit conversions. An
-             * human-readable identifier can be anything but a plain, old bunch of
-             * characters.<br/>
-             * Example of use:
-             * @code{.cpp}
-             * hashed_string<char> hs{"my.png"};
-             * @endcode
-             *
-             * @tparam N Number of characters of the identifier.
-             * @param curr Human-readable identifer.
-             */
+   * @brief Constructs a hashed string from an array of const characters.
+   *
+   * Forcing template resolution avoids implicit conversions. An
+   * human-readable identifier can be anything but a plain, old bunch of
+   * characters.<br/>
+   * Example of use:
+   * @code{.cxx}
+   * hashed_string<char> hs{"my.png"};
+   * @endcode
+   *
+   * @tparam N Number of characters of the identifier.
+   * @param curr Human-readable identifier.
+   */
   template <size_t N>
   constexpr hashed_string(const value_type (&curr)[N]) noexcept
       : str{curr}, hash{helper(curr)} {}
 
   /**
-             * @brief Explicit constructor on purpose to avoid constructing a hashed
-             * string directly from a `const value_type *`.
-             * @param wrapper Helps achieving the purpose by relying on overloading.
-             */
+   * @brief Explicit constructor on purpose to avoid constructing a hashed
+   * string directly from a `const value_type *`.
+   * @param wrapper Helps achieving the purpose by relying on overloading.
+   */
   explicit constexpr hashed_string(const_wrapper wrapper) noexcept
       : str{wrapper.str}, hash{helper(wrapper.str)} {}
 
   /**
-             * @brief Returns the human-readable representation of a hashed string.
-             * @return The string used to initialize the instance.
-             */
+   * @brief Returns the human-readable representation of a hashed string.
+   * @return The string used to initialize the instance.
+   */
   constexpr const value_type* data() const noexcept { return str; }
 
   /**
-             * @brief Returns the numeric representation of a hashed string.
-             * @return The numeric representation of the instance.
-             */
+   * @brief Returns the numeric representation of a hashed string.
+   * @return The numeric representation of the instance.
+   */
   constexpr hash_type value() const noexcept { return hash; }
 
   /*! @copydoc data */
   constexpr operator const value_type*() const noexcept { return data(); }
 
   /**
-             * @brief Returns the numeric representation of a hashed string.
-             * @return The numeric representation of the instance.
-             */
+   * @brief Returns the numeric representation of a hashed string.
+   * @return The numeric representation of the instance.
+   */
   constexpr operator hash_type() const noexcept { return value(); }
 
   /**
-             * @brief Compares two hashed strings.
-             * @param other Hashed string with which to compare.
-             * @return True if the two hashed strings are identical, false otherwise.
-             */
+   * @brief Compares two hashed strings.
+   * @param other Hashed string with which to compare.
+   * @return True if the two hashed strings are identical, false otherwise.
+   */
   constexpr bool operator==(const hashed_string& other) const noexcept {
     return hash == other.hash;
   }
@@ -174,9 +174,9 @@ class hashed_string {
 template <typename T>
 struct TypeID {
   /**
-             * @brief Returns the numeric representation of a given type.
-             * @return The numeric representation of the given type.
-             */
+   * @brief Returns the numeric representation of a given type.
+   * @return The numeric representation of the given type.
+   */
   static constexpr size_t id() noexcept {
     constexpr auto value = hashed_string::value(PRETTY_FUNCTION);
     return value;
@@ -186,6 +186,12 @@ struct TypeID {
 
 template <typename T>
 constexpr size_t TypeID = detail::TypeID<T>::id();
+
+template <typename X, typename Y>
+struct TypeID_Less {
+  static constexpr bool value = TypeID<X> < TypeID<Y>;
+  static_assert(TypeID<X> != TypeID<Y>);
+};
 }  // namespace My
 
 #endif
