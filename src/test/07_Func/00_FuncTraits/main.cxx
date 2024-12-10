@@ -1,4 +1,4 @@
-#include "MyTemplate/FuncTraits.hxx"
+#include "MyTemplate/Func.hxx"
 
 #include <iostream>
 
