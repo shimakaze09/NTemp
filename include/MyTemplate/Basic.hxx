@@ -20,10 +20,10 @@ struct IValue {
 
 template <template <typename, typename...> class Op,
           template <typename...> class Test>
-struct AddIf;
+struct AddIf;  // Ttype
 
 template <template <typename...> class Test>
-struct Negate;
+struct Negate;  // Ttype
 
 template <template <typename...> typename T, typename... Ts>
 struct is_instantiable;

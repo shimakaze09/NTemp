@@ -18,12 +18,16 @@ namespace My {
 template <typename T>
 struct FuncTraits;
 
-// static NewFunc run(Func);
-// require : { Func's arguments, ... } == { Args... }
-// NewFunc
-// - return type is same with Func
-// - arguments are Args
-template <typename... Args>
+template <typename T>
+using FuncTraits_ArgList = typename FuncTraits<T>::ArgList;
+template <typename T>
+using FuncTraits_Ret = typename FuncTraits<T>::Ret;
+
+// NewFunc == Ret(Args...)
+// static Ret(Args...) run(Func);
+// - { Func's arguments, ... } == { Args... }
+// - Ret == void or Ret <- Func'return type
+template <typename NewFunc>
 struct FuncExpand;
 }  // namespace My
 
@@ -121,10 +125,13 @@ template <typename T>
 struct FuncTraits : FuncTraits<decltype(&std::decay_t<T>::operator())> {};
 
 // ============================================================
-template <typename... Args>
-struct FuncExpand {
+template <typename Ret, typename... Args>
+struct FuncExpand<Ret(Args...)> {
   template <typename Func>
   static auto run(Func&& func) noexcept {
+    static_assert(
+        std::is_void_v<Ret> || std::is_convertible_v<FuncTraits_Ret<Func>, Ret>,
+        "Func's return can't convert to Ret");
     constexpr size_t N = Length_v<typename FuncTraits<Func>::ArgList>;
     return run(std::forward<Func>(func), std::make_index_sequence<N>{});
   }
@@ -139,7 +146,10 @@ struct FuncExpand {
       static_assert(detail::Func_::CheckCompatibleArguments<ToArgList,
                                                             FromArgList>::value,
                     "from and to arguments are not compatible.");
-      func(std::get<Ns>(argTuple)...);
+      if constexpr (std::is_void_v<Ret>)
+        func(std::get<Ns>(argTuple)...);
+      else
+        return static_cast<Ret>(func(std::get<Ns>(argTuple)...));
     };
   }
 };
