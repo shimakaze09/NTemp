@@ -50,11 +50,11 @@ ELSE ()
 ENDIF ()
 
 INCLUDE_DIRECTORIES(
-        "${CMAKE_SOURCE_DIR}/include"
+#        "${CMAKE_SOURCE_DIR}/include"
 )
 
 LINK_DIRECTORIES(
-        "${CMAKE_SOURCE_DIR}/lib"
+#        "${CMAKE_SOURCE_DIR}/lib"
 )
 
 ADD_SUB_DIRS_REC(src)
