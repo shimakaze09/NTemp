@@ -1,0 +1,1 @@
+ADD_TARGET((MODE "EXE" TEST ON LIBS My::MyTemplate_core)

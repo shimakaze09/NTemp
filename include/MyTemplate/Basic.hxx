@@ -41,6 +41,12 @@ template <typename Instance, template <typename...> class T>
 struct is_instance_of;
 template <typename Instance, template <typename...> class T>
 constexpr bool is_instance_of_v = is_instance_of<Instance, T>::value;
+
+template <typename T, typename... Args>
+struct is_derived_constructible;
+template <typename T, typename... Args>
+constexpr bool is_derived_constructible_v =
+    is_derived_constructible<T, Args...>::value;
 }  // namespace My
 
 namespace My::detail::Basic {
@@ -101,6 +107,25 @@ template <template <typename...> class Test>
 struct Negate {
   template <typename... Args>
   struct Ttype : IValue<bool, !Test<Args...>::value> {};
+};
+
+// =================================================
+
+template <typename T, typename... Args>
+struct is_derived_constructible {
+ private:
+  template <typename Base>
+  struct Derived : Base {};
+
+  template <typename, typename = void>
+  struct test : std::false_type {};
+
+  template <typename U>
+  struct test<U, decltype(void(Derived<U>(std::declval<Args>()...)))>
+      : std::true_type {};
+
+ public:
+  static constexpr bool value = test<T>::value;
 };
 }  // namespace My
 
