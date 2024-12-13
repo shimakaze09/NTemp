@@ -2,7 +2,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.20 FATAL_ERROR)
 
 # Project settings
-PROJECT(MyTemplate VERSION 0.1 LANGUAGES CXX)
+PROJECT(MyTemplate VERSION 0.2 LANGUAGES CXX)
 MESSAGE(STATUS "Project: ${PROJECT_NAME} ${PROJECT_VERSION}")
 
 # Set the default install path prefix
@@ -36,26 +36,24 @@ SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${PROJECT_SOURCE_DIR}/build/lib")
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 
 INCLUDE(FETCHCONTENT)
-FIND_PACKAGE(MyCMake 0.1 EXACT QUIET)
+MESSAGE(STATUS "Finding MyCMake v0.3.0")
+FIND_PACKAGE(MyCMake 0.3.0 QUIET)
 IF (${MyCMake_FOUND})
-    MESSAGE(STATUS "MyCMake found")
+    MESSAGE(STATUS "MyCMake v${PACKAGE_VERSION} found")
 ELSE ()
-    MESSAGE(STATUS "MyCMake not found")
+    SET(ADDRESS "https://github.com/shimakaze09/MyCMake.git")
+    MESSAGE(STATUS "MyCMake not found, fetching from ${ADDRESS}")
     FETCHCONTENT_DECLARE(
             MyCMake
-            GIT_REPOSITORY https://github.com/shimakaze09/MyCMake.git
-            GIT_TAG "v0.1"
+            GIT_REPOSITORY ${ADDRESS}
+            GIT_TAG "v0.3.0"
     )
+    MESSAGE(STATUS "Building MyCMake")
     FETCHCONTENT_MAKEAVAILABLE(MyCMake)
+    MESSAGE(STATUS "Built MyCMake")
 ENDIF ()
 
-INCLUDE_DIRECTORIES(
-#        "${CMAKE_SOURCE_DIR}/include"
-)
-
-LINK_DIRECTORIES(
-#        "${CMAKE_SOURCE_DIR}/lib"
-)
+INIT_INSTALL_PREFIX()
 
 ADD_SUB_DIRS_REC(src)
 
