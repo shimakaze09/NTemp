@@ -15,7 +15,7 @@ SET(CMAKE_DEBUG_POSTFIX d)
 
 # Check C++ version
 SET(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_STANDARD_REQUIRED True)
 
 IF (MSVC)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
@@ -39,7 +39,7 @@ INCLUDE(FETCHCONTENT)
 MESSAGE(STATUS "Finding MyCMake v0.3.5")
 FIND_PACKAGE(MyCMake 0.3.5 QUIET)
 IF (${MyCMake_FOUND})
-    MESSAGE(STATUS "MyCMake v${PACKAGE_VERSION} found")
+    MESSAGE(STATUS "MyCMake v${MyCMake_VERSION} found")
 ELSE ()
     SET(ADDRESS "https://github.com/shimakaze09/MyCMake.git")
     MESSAGE(STATUS "MyCMake not found, fetching from ${ADDRESS}")
