@@ -2,8 +2,7 @@
 // Created by Admin on 3/12/2024.
 //
 
-#ifndef BASIC_HXX
-#define BASIC_HXX
+#pragma once
 
 #include <type_traits>
 
@@ -148,5 +147,3 @@ template <template <typename...> class T, template <typename...> class U,
 struct is_same_template<T, U, true, Args...>
     : IValue<bool, std::is_same_v<T<Args...>, U<Args...>>> {};
 }  // namespace My::detail::Basic
-
-#endif  //BASIC_HXX

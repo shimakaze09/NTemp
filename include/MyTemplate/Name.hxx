@@ -2,8 +2,7 @@
 // Created by Admin on 1/12/2024.
 //
 
-#ifndef NAME_HXX
-#define NAME_HXX
+#pragma once
 
 #include <iostream>
 
@@ -195,5 +194,3 @@ struct Name<const T[]> {
   }
 };
 }  // namespace My
-
-#endif  // NAME_HXX

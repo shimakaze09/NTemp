@@ -4,8 +4,7 @@
 
 // Reference: https://github.com/skypjack/entt
 
-#ifndef TYPEID_HXX
-#define TYPEID_HXX
+#pragma once
 
 #include <cstdint>
 #include <type_traits>
@@ -208,5 +207,3 @@ struct TypeID {
   }
 };
 }  // namespace My::detail::TypeID
-
-#endif

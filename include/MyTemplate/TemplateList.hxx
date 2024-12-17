@@ -2,8 +2,7 @@
 // Created by Admin on 3/12/2024.
 //
 
-#ifndef TEMPLATELIST_HXX
-#define TEMPLATELIST_HXX
+#pragma once
 
 #include "TypeList.hxx"
 
@@ -170,5 +169,3 @@ struct TExistGenericity<TemplateList<THead, TTail...>, Instance, false>
     : TExistGenericity<TemplateList<TTail...>, Instance,
                        is_instance_of_v<Instance, THead>> {};
 }  // namespace My::detail::TemplateList_
-
-#endif  //TEMPLATELIST_HXX

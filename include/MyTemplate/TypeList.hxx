@@ -2,8 +2,7 @@
 // Created by Admin on 1/12/2024.
 //
 
-#ifndef TYPE_LIST_HXX
-#define TYPE_LIST_HXX
+#pragma once
 
 #include <iostream>
 
@@ -408,5 +407,3 @@ template <typename Head, typename... Tail>
 struct IsSet<TypeList<Head, Tail...>, false>
     : IsSet<TypeList<Tail...>, Contain_v<TypeList<Tail...>, Head>> {};
 }  // namespace My::detail::TypeList_
-
-#endif  // TYPE_LIST_HXX

@@ -2,8 +2,7 @@
 // Created by Admin on 2/12/2024.
 //
 
-#ifndef NUM_HXX
-#define NUM_HXX
+#pragma once
 
 #include "Basic.hxx"
 
@@ -65,5 +64,3 @@ struct Name<Num<bool, b>> {
   }
 };
 }  // namespace My
-
-#endif  //NUM_HXX

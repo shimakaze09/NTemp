@@ -2,8 +2,7 @@
 // Created by Admin on 2/12/2024.
 //
 
-#ifndef SI_HXX
-#define SI_HXX
+#pragma once
 
 #include "TemplateList.hxx"
 
@@ -326,5 +325,3 @@ struct TopoSort<TemplateList<THead, TTail...>, TopoOrderBaseSet, ArgList,
 
 // =================================================
 }  // namespace My::detail::SI
-
-#endif  //SI_HXX

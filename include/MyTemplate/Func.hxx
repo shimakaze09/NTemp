@@ -2,8 +2,7 @@
 // Created by Admin on 10/12/2024.
 //
 
-#ifndef FUNC_HXX
-#define FUNC_HXX
+#pragma once
 
 #include "TypeList.hxx"
 
@@ -154,5 +153,3 @@ struct FuncExpand<Ret(Args...)> {
   }
 };
 }  // namespace My
-
-#endif  //FUNC_HXX
