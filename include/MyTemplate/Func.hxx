@@ -12,15 +12,17 @@
 namespace My {
 // type ArgList : TypeList<Args...>
 // type Ret
+// type Obj
 // bool is_member
 // bool is_const
 template <typename T>
 struct FuncTraits;
-
 template <typename T>
 using FuncTraits_ArgList = typename FuncTraits<T>::ArgList;
 template <typename T>
 using FuncTraits_Ret = typename FuncTraits<T>::Ret;
+template <typename T>
+using FuncTraits_Obj = typename FuncTraits<T>::Obj;
 
 // NewFunc == Ret(Args...)
 // static Ret(Args...) run(Func);
@@ -28,6 +30,9 @@ using FuncTraits_Ret = typename FuncTraits<T>::Ret;
 // - Ret == void or Ret <- Func'return type
 template <typename NewFunc>
 struct FuncExpand;
+
+template <typename Func>
+struct MemFuncOf;
 }  // namespace My
 
 // ============================================================
@@ -108,6 +113,7 @@ template <typename T, typename _Ret, typename... Args>
 struct FuncTraits<_Ret (T::*)(Args...)> {
   using ArgList = TypeList<Args...>;
   using Ret = _Ret;
+  using Obj = T;
   static constexpr bool is_member = true;
   static constexpr bool is_const = false;
 };
@@ -116,6 +122,7 @@ template <typename T, typename _Ret, typename... Args>
 struct FuncTraits<_Ret (T::*)(Args...) const> {
   using ArgList = TypeList<Args...>;
   using Ret = _Ret;
+  using Obj = T;
   static constexpr bool is_member = true;
   static constexpr bool is_const = true;
 };
@@ -150,6 +157,16 @@ struct FuncExpand<Ret(Args...)> {
       else
         return static_cast<Ret>(func(std::get<Ns>(argTuple)...));
     };
+  }
+};
+
+// =========================
+
+template <typename Func>
+struct MemFuncOf {
+  template <typename Obj>
+  static constexpr auto run(Func Obj::* func) noexcept {
+    return func;
   }
 };
 }  // namespace My
